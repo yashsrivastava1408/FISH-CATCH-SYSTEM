@@ -41,3 +41,11 @@ Ensure that the following are installed on your machine:
    ```bash
    git clone https://github.com/your-username/geo-referenced-fish-catch.git
    cd geo-referenced-fish-catch
+<img width="1706" alt="Image" src="https://github.com/user-attachments/assets/32678e75-0bfb-4921-b90a-165a6bfaed8b" />
+
+
+<img width="1710" alt="Image" src="https://github.com/user-attachments/assets/9294b4b0-762c-4e8c-b54d-54c477b64db2" />
+
+<img width="1710" alt="Image" src="https://github.com/user-attachments/assets/781fef8c-e39f-468e-bde4-2a7ff0c72b67" />
+
+<img width="1706" alt="Image" src="https://github.com/user-attachments/assets/7bb0a29f-ca43-4d1b-a8d4-9c4906c01270" />
