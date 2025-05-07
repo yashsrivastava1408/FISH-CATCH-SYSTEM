@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Body and global styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;  /* Dark background */
+            color: #f1f1f1;  /* Light text color */
+            margin: 0;
+            padding: 0;
+        }
+    
+        /* Header */
+        h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+    
+        /* Navigation Links */
+        .nav {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+    
+        .nav a {
+            color: #009688;  /* Teal accent color */
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 20px;
+            position: relative;
+            padding: 5px 0;
+            transition: all 0.3s ease;
+        }
+    
+        .nav a:hover {
+            text-decoration: underline;
+            color: #00bcd4; /* Slightly lighter teal for hover */
+        }
+    
+        /* Add a light glow effect on hover */
+        .nav a:before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: #00bcd4;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+    
+        .nav a:hover:before {
+            width: 100%;
+            left: 0;
+        }
+    
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            background-color: #333;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.btn-add, .btn-logout {
+    display: inline-block;
+    background-color: #00bcd4;
+    color: #fff;
+    padding: 10px 20px;
+    margin: 0 10px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-add:hover {
+    background-color: #009688;
+    transform: scale(1.05);
+}
+
+.btn-logout {
+    background-color: #f44336;
+}
+
+.btn-logout:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+}
+
+    
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #444;
+        }
+    
+        th {
+            background-color: #222;
+            color: #00bcd4;  /* Light teal for headers */
+        }
+    
+        tr:hover {
+            background-color: #947878;
+        }
+    
+        /* Map Container */
+        #map {
+            height: 400px;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        /* Catch Record Header */
+        h3 {
+            margin-top: 50px;
+            color: #fff;
+            text-align: center;
+            font-size: 1.8em;
+            border-bottom: 2px solid #444;
+            padding-bottom: 10px;
+        }
+        .predict-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #4caf50;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1em;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.predict-button:hover {
+    background-color: #388e3c;
+    transform: scale(1.05);
+}
+
+    
+        /* Footer Styles */
+        footer {
+            background-color: #1e1e1e;
+            color: #bbb;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    
+        footer p {
+            margin: 0;
+        }
+    </style>
+    
+    
+    
+</head>
+<body>
+    <h2>Welcome, {{ username }}</h2>
+    <div class="button-container">
+        <a href="/add_catch" class="btn-add">+ Add New Catch</a>
+        <a href="/logout" class="btn-logout">Logout</a>
+        <a href="/predict" class="predict-button">🔍 Predict Catch</a>
+
+    </div>
+    
+    
+
+    <h3>Your Fish Catch Records</h3>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Fish Type</th>
+            <th>Quantity</th>
+            <th>Date</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+        </tr>
+        {% for catch in catches %}
+        <tr>
+            <td>{{ catch.id }}</td>
+            <td>{{ catch.fish_type }}</td>
+            <td>{{ catch.quantity }}</td>
+            <td>{{ catch.catch_date }}</td>
+            <td>{{ catch.latitude }}</td>
+            <td>{{ catch.longitude }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3>Catch Locations Map</h3>
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([20.5937, 78.9629], 5);  // Center on India
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18
+        }).addTo(map);
+
+        // Use the Leaflet CDN marker icons
+        const catches = {{ catches | tojson }};
+        catches.forEach(catchData => {
+            if (catchData.latitude && catchData.longitude) {
+                L.marker([catchData.latitude, catchData.longitude], {
+                    icon: L.icon({
+                        iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+                        shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png'
+                    })
+                })
+                .addTo(map)
+                .bindPopup(`<strong>${catchData.fish_type}</strong><br>Qty: ${catchData.quantity}<br>Date: ${catchData.catch_date}`);
+            }
+        });
+    </script>
+</body>
+</html>

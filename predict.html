@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fish Catch Prediction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #f1f1f1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: #00bcd4;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background-color: #1f1f1f;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            background-color: #2a2a2a;
+            color: #fff;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #009688;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #00bcd4;
+            transform: scale(1.03);
+        }
+
+        h3 {
+            margin-top: 30px;
+            color: #4caf50;
+        }
+
+        a {
+            color: #00bcd4;
+            text-decoration: none;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Predict Fish Catch Quantity</h2>
+    <form method="POST">
+        <label for="date">Enter Date:</label>
+        <input type="date" name="date" required>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if predicted_quantity is defined %}
+        <h3>Predicted Catch Quantity: {{ predicted_quantity }}</h3>
+    {% endif %}
+
+    <p><a href="/dashboard">← Back to Dashboard</a></p>
+</body>
+</html>

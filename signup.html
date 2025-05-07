@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Fish Catch System</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;  /* Dark background */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #1e1e1e;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: #333;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h3 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"], input[type="password"], select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #888;
+            border-radius: 5px;
+            background-color: #222;
+            color: #fff;
+        }
+
+        input[type="submit"] {
+            background-color: #0077b6;
+            border: none;
+            color: #fff;
+            padding: 15px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005f82;
+        }
+
+        footer {
+            background-color: #1e1e1e;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        a {
+            color: #0077b6;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>Create a New Account</h2>
+</header>
+
+<div class="container">
+    <h3>Sign Up</h3>
+    <form method="POST" action="/signup">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required><br>
+
+        <label for="role">Role:</label>
+        <select name="role" id="role">
+            <option value="fisherman">Fisherman</option>
+            <option value="admin">Admin</option>
+        </select><br>
+
+        <input type="submit" value="Sign Up">
+    </form>
+
+    <p>Already have an account? <a href="/">Login here</a></p>
+</div>
+
+<footer>
+    <p>&copy; 2025 Fish Catch Tracker. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
